@@ -69,23 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(widget.title),
       //   actions: const [],
       // ),
-      body: Row(
-        children: [
-          Flexible(
-              flex: 1,
-              child:
-                  Container(color: Theme.of(context).colorScheme.background)),
-          Flexible(
-            flex: 2,
-            child: Container(
+      body: Container(
               child: const Padding(
                 padding: EdgeInsets.only(left: 24.0),
                 child: NavWheel(),
               ),
             ),
-          ),
-        ],
-      ),
     );
   }
 }

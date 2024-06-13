@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CirclePainter extends CustomPainter {
   final _paint = Paint()
     ..color = Colors.white
-    ..strokeWidth = 40
+    ..strokeWidth = 80
     // Use [PaintingStyle.fill] if you want the circle to be filled.
     ..style = PaintingStyle.stroke;
 
