@@ -4,6 +4,7 @@ import 'package:circular_motion/circular_motion.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/circle_painter.dart';
+import 'package:portfolio/wheel/wheel_item.dart';
 
 class NavWheel extends StatelessWidget {
   const NavWheel({super.key});
@@ -21,8 +22,9 @@ class NavWheel extends StatelessWidget {
         child: SizedBox(
           height: circleHeight + 54,
           width: circleHeight + 54,
-          child: CircularMotion(
-             centerWidget: const Column(
+          child: const CircularMotion(
+            speedRunEnabled: false,
+             centerWidget: Column(
               mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("JACK CURTIN", style: TextStyles.title),
@@ -30,32 +32,16 @@ class NavWheel extends StatelessWidget {
                 ],
               ),
               children: [
-                buildMenuOption(Icons.question_mark_rounded),
-                buildMenuOption(Icons.edit_document),
-                buildMenuOption(Icons.person_search_outlined),
-                buildMenuOption(Icons.work_history_outlined),
-                buildMenuOption(Icons.mail)
+                WheelItem(icon: Icons.question_mark_rounded),
+                WheelItem(icon:Icons.edit_document),
+                WheelItem(icon:Icons.person_search_outlined),
+                WheelItem(icon:Icons.work_history_outlined),
+                WheelItem(icon:Icons.mail)
               ],
            ),
         ),
       ),
       ],
-    );
-  }
-
-  Widget buildMenuOption(IconData icon) {
-    return CircleAvatar(
-      radius: 30,
-      backgroundColor: Color.fromARGB(255, 113, 160, 213),
-      child: IconButton(
-        icon: Icon(
-          icon,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          print("ok");
-        },
-      ),
     );
   }
  
