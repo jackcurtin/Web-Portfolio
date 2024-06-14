@@ -13,67 +13,78 @@ class NavWheel extends StatefulWidget {
   State<NavWheel> createState() => _NavWheelState();
 }
 
-class _NavWheelState extends State<NavWheel> with SingleTickerProviderStateMixin {
-    
+class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
     Duration animationDuration = const Duration(milliseconds: 1500);
+    /// Controllers and Animation for the menu wheel
     late AnimationController wheelAnimationController = AnimationController(vsync: this, duration: animationDuration)..repeat(reverse: true);
-    late final Animation<double> wheelAnimation = CurvedAnimation(
-      parent: wheelAnimationController,
-      curve: Curves.fastOutSlowIn,
-    );
+    late final Animation<double> wheelAnimation = Tween<double>(begin: 0, end: 0.75).animate(wheelAnimationController);
 
-    late AnimationController centerAnimationController = AnimationController(vsync: this, duration: animationDuration)..repeat(reverse: true);
-    late final Animation<double> centerAnimation = CurvedAnimation(
-      parent: centerAnimationController,
+    /// Controllers and Animation for the center widget
+    late AnimationController fadeAnimationController = AnimationController(vsync: this, duration: animationDuration)..repeat(reverse: true);
+    late final Animation<double> fadeAnimation = CurvedAnimation(
+      parent: fadeAnimationController,
       curve: Curves.easeIn,
     );
 
 @override
   void initState() {
-    // animationController.forward();
+    loadAnimation();
     super.initState();
   }
 
     @override
   void dispose() {
     wheelAnimationController.dispose();
-    centerAnimationController.dispose();
+    fadeAnimationController.dispose();
     super.dispose();
   }
 
+  Future<void> loadAnimation() async {
+    try {
+      await wheelAnimationController.forward().whenComplete(() => fadeAnimationController.forward());
+    } on TickerCanceled {
+      
+    }
+  }
+
   Widget _buildCircle(BuildContext context) {
-    double circleHeight = MediaQuery.sizeOf(context).height / 1.5;
+   double height = MediaQuery.sizeOf(context).height;
    return Stack(
       alignment: Alignment.center,
       children: [
-        CustomPaint(
-          size: Size(circleHeight, circleHeight),
-          painter: CirclePainter(),
+        AnimatedBuilder(
+          animation: wheelAnimation,
+          builder: (context, _) {
+            return CustomPaint(
+              size: Size(height * wheelAnimation.value, height * wheelAnimation.value),
+              painter: CirclePainter(),
+            );
+          }
         ),
       Center(
         child: SizedBox(
-          height: circleHeight + 54,
-          width: circleHeight + 54,
-          child: CircularMotion(
-            speedRunEnabled: false,
-             centerWidget: FadeTransition(
-              opacity: centerAnimation,
-               child: const Column(
+          height: height * 0.815,
+          width: height * 0.815,
+          child: FadeTransition(
+            opacity: fadeAnimation,
+            child: const CircularMotion(
+              speedRunEnabled: false,
+               centerWidget: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("JACK CURTIN", style: TextStyles.title),
                     Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
                   ],
                 ),
+                children: [
+                  WheelItem(icon: Icons.question_mark_rounded),
+                  WheelItem(icon:Icons.edit_document),
+                  WheelItem(icon:Icons.person_search_outlined),
+                  WheelItem(icon:Icons.work_history_outlined),
+                  WheelItem(icon:Icons.mail)
+                ],
              ),
-              children: [
-                WheelItem(icon: Icons.question_mark_rounded),
-                WheelItem(icon:Icons.edit_document),
-                WheelItem(icon:Icons.person_search_outlined),
-                WheelItem(icon:Icons.work_history_outlined),
-                WheelItem(icon:Icons.mail)
-              ],
-           ),
+          ),
         ),
       ),
       ],
