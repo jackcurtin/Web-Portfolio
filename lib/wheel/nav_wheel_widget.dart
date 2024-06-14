@@ -14,13 +14,47 @@ class NavWheel extends StatefulWidget {
 }
 
 class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
-    Duration animationDuration = const Duration(milliseconds: 1500);
-    /// Controllers and Animation for the menu wheel
-    late AnimationController wheelAnimationController = AnimationController(vsync: this, duration: animationDuration)..repeat(reverse: true);
-    late final Animation<double> wheelAnimation = Tween<double>(begin: 0, end: 0.75).animate(wheelAnimationController);
+    Duration bloomDuration = const Duration(milliseconds: 800);
+    Duration animationDuration = const Duration(milliseconds: 1200);
+    bool pageBloomed = false;
+    /// Controllers and Animation for the inital menu wheel load
+    late AnimationController wheelBloomAnimationController = AnimationController(vsync: this, duration: bloomDuration);
+    late final Animation<double> wheelBloomAnimation = Tween<double>(begin: 0, end: 0.75).animate(wheelBloomAnimationController);
+
+    /// Controller and Animation tweens for selecting menu items
+    late AnimationController wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
+    late final Animation<double> wheelExpandAnimation = Tween<double>(begin: 0.75, end: 1).animate(CurvedAnimation(
+        parent: wheelExpandAnimationController, 
+        curve: const Interval(
+          0.4,
+          1,
+          curve: Curves.ease
+          )
+        )
+      );
+    late final Animation<double> wheelFadeAnimation = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(
+        parent: wheelExpandAnimationController, 
+        curve: const Interval(
+          0.4,
+          1,
+          curve: Curves.ease
+          )
+        )
+      );
+    late final Animation<double> wheelItemFadeAnimation = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(
+        parent: wheelExpandAnimationController, 
+        curve: const Interval(
+          0,
+          0.4,
+          curve: Curves.ease
+          )
+        )
+      );
 
     /// Controllers and Animation for the center widget
-    late AnimationController fadeAnimationController = AnimationController(vsync: this, duration: animationDuration)..repeat(reverse: true);
+    late AnimationController fadeAnimationController = AnimationController(vsync: this, duration: animationDuration);
     late final Animation<double> fadeAnimation = CurvedAnimation(
       parent: fadeAnimationController,
       curve: Curves.easeIn,
@@ -28,22 +62,34 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
 
 @override
   void initState() {
-    loadAnimation();
+    bloomAnimation();
     super.initState();
   }
 
     @override
   void dispose() {
-    wheelAnimationController.dispose();
+    wheelBloomAnimationController.dispose();
     fadeAnimationController.dispose();
     super.dispose();
   }
 
-  Future<void> loadAnimation() async {
+  Future<void> bloomAnimation() async {
     try {
-      await wheelAnimationController.forward().whenComplete(() => fadeAnimationController.forward());
+      await wheelBloomAnimationController.forward().whenComplete(() => fadeAnimationController.forward());
+      setState(() {
+        pageBloomed = true;
+      });
     } on TickerCanceled {
-      
+      throw Exception("TICKER CANCELLED");
+    }
+  }
+
+    Future<void> expandAnimation() async {
+      print("expand animation");
+    try {
+      await wheelExpandAnimationController.forward();
+    } on TickerCanceled {
+      throw Exception("TICKER CANCELLED");
     }
   }
 
@@ -52,14 +98,18 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
    return Stack(
       alignment: Alignment.center,
       children: [
-        AnimatedBuilder(
-          animation: wheelAnimation,
-          builder: (context, _) {
-            return CustomPaint(
-              size: Size(height * wheelAnimation.value, height * wheelAnimation.value),
-              painter: CirclePainter(),
-            );
-          }
+        FadeTransition(
+          opacity: wheelFadeAnimation,
+          child: AnimatedBuilder(
+            animation: pageBloomed ? wheelExpandAnimation : wheelBloomAnimation,
+            builder: (context, _) {
+              double animatedSizing = pageBloomed ? wheelExpandAnimation.value : wheelBloomAnimation.value;
+              return CustomPaint(
+                size: Size(height * animatedSizing, height * animatedSizing),
+                painter: CirclePainter(),
+              );
+            }
+          ),
         ),
       Center(
         child: SizedBox(
@@ -67,9 +117,9 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
           width: height * 0.815,
           child: FadeTransition(
             opacity: fadeAnimation,
-            child: const CircularMotion(
+            child: CircularMotion(
               speedRunEnabled: false,
-               centerWidget: Column(
+               centerWidget: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("JACK CURTIN", style: TextStyles.title),
@@ -77,11 +127,11 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                   ],
                 ),
                 children: [
-                  WheelItem(icon: Icons.question_mark_rounded),
-                  WheelItem(icon:Icons.edit_document),
-                  WheelItem(icon:Icons.person_search_outlined),
-                  WheelItem(icon:Icons.work_history_outlined),
-                  WheelItem(icon:Icons.mail)
+                  WheelItem(icon: Icons.question_mark_rounded, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
+                  WheelItem(icon:Icons.edit_document, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
+                  WheelItem(icon:Icons.person_search_outlined, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
+                  WheelItem(icon:Icons.work_history_outlined, wheelExpandAnimationController: wheelExpandAnimationController,wheelItemFadeAnimation: wheelItemFadeAnimation,),
+                  WheelItem(icon:Icons.mail, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,)
                 ],
              ),
           ),
