@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Jack Curtin Web Portfolio',
       theme: ThemeData(
           // This is the theme of your application.
           //
@@ -48,12 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-              child: const Padding(
-                padding: EdgeInsets.only(left: 24.0),
-                child: NavWheel(),
-              ),
-            ),
+      body: const NavWheel(),
     );
   }
 }
