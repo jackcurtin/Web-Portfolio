@@ -10,11 +10,12 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin {
+  double titleOpacity = 0.0;
   bool showContent = false;
-    late final AnimationController _controller = AnimationController(
+  late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 800),
-    vsync: this,
-  )..repeat(reverse: true);
+  vsync: this,
+  );
   late final Animation<Offset> positionAnimation = Tween<Offset>(
     begin: Offset.zero,
     end: const Offset(0.0, -0.4),
@@ -23,7 +24,20 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
     curve: Curves.ease,
   ));
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 800), () { 
+      titleOpacity = 1;
+      setState(() {
+        
+      });
+      }
+    );
+  }
+
   void onClickMenuItemCallback() {
+    _controller.forward();
     setState(() {
       showContent = true;
     });
@@ -32,16 +46,19 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 
 
   Widget centerPiece() {
-  return  SlideTransition(
-    position: positionAnimation,
-    child: Align(
-      alignment: showContent ? Alignment.topCenter : Alignment.center,
-      child:  Column(
-        mainAxisAlignment: showContent ? MainAxisAlignment.start : MainAxisAlignment.center,
-        children: const [
-          Text("JACK CURTIN", style: TextStyles.title),
-          Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
-        ],
+  return AnimatedOpacity(
+    duration: const Duration(milliseconds: 800),
+    opacity: titleOpacity,
+    child: SlideTransition(
+      position: positionAnimation,
+      child: const Center(
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("JACK CURTIN", style: TextStyles.title),
+            Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
+          ],
+        ),
       ),
     ),
   );
@@ -51,7 +68,17 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Stack(children: [
         centerPiece(),
-        NavWheel(onClickItemCallback: onClickMenuItemCallback,)
+        NavWheel(onClickItemCallback: onClickMenuItemCallback),
+        Visibility(
+          visible: showContent,
+          child: Center(
+            child: Container(
+              height: 500, 
+              width: 350, 
+              color: Colors.white,
+              ),
+          ),
+          ),
       ],);
   }
 }
