@@ -12,15 +12,19 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin {
   double titleOpacity = 0.0;
   bool showContent = false;
-  late final AnimationController _controller = AnimationController(
+
+  Duration animationDuration = const Duration(milliseconds: 1200);
+
+  late AnimationController _wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
+  late final AnimationController _textAnimationController = AnimationController(
     duration: const Duration(milliseconds: 800),
   vsync: this,
   );
-  late final Animation<Offset> positionAnimation = Tween<Offset>(
+  late final Animation<Offset> textPositionAnimation = Tween<Offset>(
     begin: Offset.zero,
     end: const Offset(0.0, -0.4),
   ).animate(CurvedAnimation(
-    parent: _controller,
+    parent: _textAnimationController,
     curve: Curves.ease,
   ));
 
@@ -37,7 +41,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   }
 
   void onClickMenuItemCallback() {
-    _controller.forward();
+    _textAnimationController.forward();
     setState(() {
       showContent = true;
     });
@@ -50,7 +54,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
     duration: const Duration(milliseconds: 800),
     opacity: titleOpacity,
     child: SlideTransition(
-      position: positionAnimation,
+      position: textPositionAnimation,
       child: const Center(
         child:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +72,11 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Stack(children: [
         centerPiece(),
-        NavWheel(onClickItemCallback: onClickMenuItemCallback),
+        NavWheel(
+          onClickItemCallback: onClickMenuItemCallback,
+          wheelExpandAnimationController: _wheelExpandAnimationController,
+          animationDuration: animationDuration,
+          ),
         Visibility(
           visible: showContent,
           child: Center(
@@ -79,6 +87,18 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
               ),
           ),
           ),
+          Visibility(
+            visible: showContent,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                showContent = false;
+                _textAnimationController.reverse();
+                _wheelExpandAnimationController.reverse();
+            }); 
+            }, 
+            child: const Icon(Icons.close)),
+          )
       ],);
   }
 }

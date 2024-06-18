@@ -7,7 +7,9 @@ import 'package:portfolio/wheel/wheel_item.dart';
 
 class NavWheel extends StatefulWidget {
   final Function onClickItemCallback;
-  const NavWheel({required this.onClickItemCallback, super.key});
+  final AnimationController wheelExpandAnimationController;
+  final Duration? animationDuration;
+  const NavWheel({required this.onClickItemCallback, required this.wheelExpandAnimationController, this.animationDuration, super.key});
 
   @override
   State<NavWheel> createState() => _NavWheelState();
@@ -15,16 +17,14 @@ class NavWheel extends StatefulWidget {
 
 class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
     Duration bloomDuration = const Duration(milliseconds: 800);
-    Duration animationDuration = const Duration(milliseconds: 1200);
     bool pageBloomed = false;
     /// Controllers and Animation for the inital menu wheel load
     late AnimationController wheelBloomAnimationController = AnimationController(vsync: this, duration: bloomDuration);
     late final Animation<double> wheelBloomAnimation = Tween<double>(begin: 0, end: 0.75).animate(wheelBloomAnimationController);
 
     /// Controller and Animation tweens for selecting menu items
-    late AnimationController wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
     late final Animation<double> wheelExpandAnimation = Tween<double>(begin: 0.75, end: 1).animate(CurvedAnimation(
-        parent: wheelExpandAnimationController, 
+        parent: widget.wheelExpandAnimationController, 
         curve: const Interval(
           0.4,
           1,
@@ -34,7 +34,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
       );
     late final Animation<double> wheelFadeAnimation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
-        parent: wheelExpandAnimationController, 
+        parent: widget.wheelExpandAnimationController, 
         curve: const Interval(
           0.4,
           1,
@@ -44,7 +44,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
       );
     late final Animation<double> wheelItemFadeAnimation = Tween<double>(begin: 1, end: 0).animate(
       CurvedAnimation(
-        parent: wheelExpandAnimationController, 
+        parent: widget.wheelExpandAnimationController, 
         curve: const Interval(
           0,
           0.4,
@@ -54,7 +54,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
       );
 
     /// Controllers and Animation for the center widget
-    late AnimationController fadeAnimationController = AnimationController(vsync: this, duration: animationDuration);
+    late AnimationController fadeAnimationController = AnimationController(vsync: this, duration: widget.animationDuration);
     late final Animation<double> fadeAnimation = CurvedAnimation(
       parent: fadeAnimationController,
       curve: Curves.easeIn,
@@ -87,7 +87,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
     Future<void> expandAnimation() async {
       print("expand animation");
     try {
-      await wheelExpandAnimationController.forward();
+      await widget.wheelExpandAnimationController.forward();
     } on TickerCanceled {
       throw Exception("TICKER CANCELLED");
     }
@@ -123,31 +123,31 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                 children: [
                   WheelItem(
                     icon: Icons.question_mark_rounded, 
-                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     ),
                   WheelItem(
                     icon:Icons.edit_document, 
-                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     ),
                   WheelItem(
                     icon:Icons.person_search_outlined, 
-                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     ),
                   WheelItem(
                     icon:Icons.work_history_outlined, 
-                    wheelExpandAnimationController: wheelExpandAnimationController,
+                    wheelExpandAnimationController: widget.wheelExpandAnimationController,
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     ),
                   WheelItem(
                     icon:Icons.mail, 
-                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     )
