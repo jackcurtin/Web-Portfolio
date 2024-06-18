@@ -70,6 +70,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Stack(children: [
         centerPiece(),
         NavWheel(
@@ -78,7 +79,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
           animationDuration: animationDuration,
           ),
         Visibility(
-          visible: showContent,
+          visible: false,
           child: Center(
             child: Container(
               height: 500, 
@@ -89,15 +90,22 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
           ),
           Visibility(
             visible: showContent,
-            child: ElevatedButton(
-              onPressed: () {
+            child: GestureDetector(
+              onTap: () {
                 setState(() {
                 showContent = false;
                 _textAnimationController.reverse();
                 _wheelExpandAnimationController.reverse();
             }); 
             }, 
-            child: const Icon(Icons.close)),
+            child: Container(
+              margin: EdgeInsets.only(top: screenHeight * 0.05, left: 25),
+              padding: const EdgeInsets.all(10),
+              child: const Icon(
+                Icons.close,
+                size: 50,
+                )
+              )),
           )
       ],);
   }
