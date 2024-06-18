@@ -42,7 +42,6 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   }
 
   void onClickMenuItemCallback(ContentKey key) {
-    print("key : $key");
     _textAnimationController.forward();
     setState(() {
       showContent = true;
