@@ -123,43 +123,40 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                centerWidget: const SizedBox(),
                 children: [
                   WheelItem(
-                    icon: Icons.question_mark_rounded, 
+                    icon: Icons.mail, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
-                    contentKey: ContentKey.about,
-                    ),
+                    contentKey: ContentKey.contact,
+                  ),
                   WheelItem(
                     icon:Icons.edit_document, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.resume,
-
-                    ),
+                  ),
                   WheelItem(
                     icon:Icons.person_search_outlined, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.gitHub,
-
-                    ),
+                  ),
                   WheelItem(
                     icon:Icons.work_history_outlined, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController,
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.linkedIn,
-                    ),
+                  ),
                   WheelItem(
-                    icon:Icons.mail, 
+                    icon:Icons.folder, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
-                    contentKey: ContentKey.contact,
-
-                    )
+                    contentKey: ContentKey.projects,
+                  )
                 ],
              ),
           ),

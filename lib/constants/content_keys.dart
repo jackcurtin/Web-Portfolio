@@ -1,8 +1,8 @@
 enum ContentKey {
   none,
-  about,
+  contact,
   resume,
   linkedIn,
   gitHub,
-  contact
+  projects
 }
