@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/constants/content_keys.dart';
 import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/nav_wheel_widget.dart';
 
@@ -12,10 +13,11 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin {
   double titleOpacity = 0.0;
   bool showContent = false;
+  ContentKey contentKey = ContentKey.none;
 
   Duration animationDuration = const Duration(milliseconds: 1200);
 
-  late AnimationController _wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
+  late final AnimationController _wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
   late final AnimationController _textAnimationController = AnimationController(
     duration: const Duration(milliseconds: 800),
   vsync: this,
@@ -33,17 +35,17 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
     super.initState();
     Future.delayed(const Duration(milliseconds: 800), () { 
       titleOpacity = 1;
-      setState(() {
-        
-      });
+      setState(() {});
       }
     );
   }
 
-  void onClickMenuItemCallback() {
+  void onClickMenuItemCallback(ContentKey key) {
+    print("key : $key");
     _textAnimationController.forward();
     setState(() {
       showContent = true;
+      contentKey = key;
     });
   }
 
@@ -68,6 +70,24 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   );
 }
 
+Widget pageContent() {
+  switch(contentKey) {
+    case ContentKey.about :
+      return Container(height: 100, width: 100, color: Colors.red,);
+    case ContentKey.resume : 
+      return Container(height: 100, width: 100, color: Colors.yellow,);
+    case ContentKey.gitHub :
+      return Container(height: 100, width: 100, color: Colors.green,);
+    case ContentKey.linkedIn :
+      return Container(height: 100, width: 100, color: Colors.blue,);
+    case ContentKey.contact :
+      return Container(height: 100, width: 100, color: Colors.purple,);
+    case ContentKey.none :
+    default :
+      return Container();
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -78,26 +98,18 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
           wheelExpandAnimationController: _wheelExpandAnimationController,
           animationDuration: animationDuration,
           ),
+        Center(child: pageContent()),
         Visibility(
-          visible: false,
-          child: Center(
-            child: Container(
-              height: 500, 
-              width: 350, 
-              color: Colors.white,
-              ),
-          ),
-          ),
-          Visibility(
-            visible: showContent,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                showContent = false;
-                _textAnimationController.reverse();
-                _wheelExpandAnimationController.reverse();
+          visible: showContent,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+              showContent = false;
+              _textAnimationController.reverse();
+              _wheelExpandAnimationController.reverse();
+              contentKey = ContentKey.none;
             }); 
-            }, 
+          }, 
             child: Container(
               margin: EdgeInsets.only(top: screenHeight * 0.05, left: 25),
               padding: const EdgeInsets.all(10),

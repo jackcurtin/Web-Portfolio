@@ -2,6 +2,7 @@
 
 import 'package:circular_motion/circular_motion.dart';
 import 'package:flutter/material.dart';
+import 'package:portfolio/constants/content_keys.dart';
 import 'package:portfolio/wheel/circle_painter.dart';
 import 'package:portfolio/wheel/wheel_item.dart';
 
@@ -126,30 +127,38 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
+                    contentKey: ContentKey.about,
                     ),
                   WheelItem(
                     icon:Icons.edit_document, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
+                    contentKey: ContentKey.resume,
+
                     ),
                   WheelItem(
                     icon:Icons.person_search_outlined, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
+                    contentKey: ContentKey.gitHub,
+
                     ),
                   WheelItem(
                     icon:Icons.work_history_outlined, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController,
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
+                    contentKey: ContentKey.linkedIn,
                     ),
                   WheelItem(
                     icon:Icons.mail, 
                     wheelExpandAnimationController: widget.wheelExpandAnimationController, 
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
+                    contentKey: ContentKey.contact,
+
                     )
                 ],
              ),

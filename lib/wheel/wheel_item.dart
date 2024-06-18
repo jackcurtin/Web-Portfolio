@@ -1,13 +1,15 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/constants/content_keys.dart';
 
 class WheelItem extends StatefulWidget {
   final IconData icon;
   final AnimationController wheelExpandAnimationController;
   final Animation<double> wheelItemFadeAnimation;
   final Function onClickCallback;
-  const WheelItem({ required this.icon, required this.wheelExpandAnimationController, required this.wheelItemFadeAnimation, required this.onClickCallback, super.key });
+  final ContentKey contentKey;
+  const WheelItem({ required this.icon, required this.wheelExpandAnimationController, required this.wheelItemFadeAnimation, required this.onClickCallback, required this.contentKey, super.key });
 
   @override
   State<WheelItem> createState() => _WheelItemState();
@@ -19,7 +21,7 @@ class _WheelItemState extends State<WheelItem> {
 
   Future<void> onClickItem() async {
     await expandAnimation();
-    widget.onClickCallback();
+    widget.onClickCallback(widget.contentKey);
   }
   
   Future<void> expandAnimation() async {
