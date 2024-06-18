@@ -25,7 +25,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   );
   late final Animation<Offset> textPositionAnimation = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(0.0, -0.4),
+    end: const Offset(0.0, -0.2),
   ).animate(CurvedAnimation(
     parent: _textAnimationController,
     curve: Curves.ease,
@@ -52,19 +52,54 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 
 
 
-  Widget centerPiece() {
+  Widget titlePiece() {
   return AnimatedOpacity(
     duration: const Duration(milliseconds: 800),
     opacity: titleOpacity,
     child: SlideTransition(
       position: textPositionAnimation,
-      child: const Center(
-        child:  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("JACK CURTIN", style: TextStyles.title),
-            Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
-          ],
+      child: Center(
+        child:  SizedBox(
+          width: 500,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Visibility(
+                    visible: showContent,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showContent = false;
+                          _textAnimationController.reverse();
+                          _wheelExpandAnimationController.reverse();
+                          contentKey = ContentKey.none;
+                      }); 
+                    }, 
+                    child: const Icon(
+                      Icons.arrow_back_ios_new_outlined,
+                      size: 30,
+                    )
+                  ),
+                ),
+              ),
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("JACK CURTIN", style: TextStyles.title),
+                  Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
+                ],
+              ),
+              Visibility(
+                visible: showContent, 
+                child: const Icon(
+                  Icons.computer_outlined, 
+                  size: 30,
+                )
+              )
+            ],
+          ),
         ),
       ),
     ),
@@ -79,11 +114,11 @@ Widget pageContent() {
         width: 500, 
         child: Column(
           children: [
-            Spacer(flex: 3,),
+            Spacer(flex: 2,),
             Text(textAlign: TextAlign.center, aboutMe1),
             Spacer(flex: 1),
             Text(textAlign: TextAlign.center, aboutMe2),
-            Spacer(flex: 3,)
+            Spacer(flex: 5,)
           ],
         ));
     case ContentKey.resume : 
@@ -103,34 +138,15 @@ Widget pageContent() {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Stack(children: [
-        centerPiece(),
         NavWheel(
           onClickItemCallback: onClickMenuItemCallback,
           wheelExpandAnimationController: _wheelExpandAnimationController,
           animationDuration: animationDuration,
           ),
         Center(child: pageContent()),
-        Visibility(
-          visible: showContent,
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-              showContent = false;
-              _textAnimationController.reverse();
-              _wheelExpandAnimationController.reverse();
-              contentKey = ContentKey.none;
-            }); 
-          }, 
-            child: Container(
-              margin: EdgeInsets.only(top: screenHeight * 0.05, left: 25),
-              padding: const EdgeInsets.all(10),
-              child: const Icon(
-                Icons.close,
-                size: 50,
-                )
-              )),
-          )
+        titlePiece(),
       ],);
   }
 }
