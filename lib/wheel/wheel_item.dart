@@ -6,7 +6,8 @@ class WheelItem extends StatefulWidget {
   final IconData icon;
   final AnimationController wheelExpandAnimationController;
   final Animation<double> wheelItemFadeAnimation;
-  const WheelItem({ required this.icon, required this.wheelExpandAnimationController, required this.wheelItemFadeAnimation, super.key });
+  final Function onClickCallback;
+  const WheelItem({ required this.icon, required this.wheelExpandAnimationController, required this.wheelItemFadeAnimation, required this.onClickCallback, super.key });
 
   @override
   State<WheelItem> createState() => _WheelItemState();
@@ -14,8 +15,13 @@ class WheelItem extends StatefulWidget {
 
 class _WheelItemState extends State<WheelItem> {
   double radius = 30;
-  Color color = Color.fromARGB(255, 113, 160, 213);
+  Color color = const Color.fromARGB(255, 113, 160, 213);
 
+  Future<void> onClickItem() async {
+    await expandAnimation();
+    widget.onClickCallback();
+  }
+  
   Future<void> expandAnimation() async {
       print("expand animation");
     try {
@@ -30,15 +36,15 @@ class _WheelItemState extends State<WheelItem> {
     return FadeTransition(
       opacity: widget.wheelItemFadeAnimation,
       child: InkWell(
-        onTap: () => expandAnimation(),
+        onTap: () => onClickItem(),
         onHover: (hover) {
           setState(() {
             if (hover) {
               radius = 32;
-              color = Color.fromARGB(255, 188, 212, 240);
+              color = const Color.fromARGB(255, 188, 212, 240);
             } else {
               radius = 30;
-              color = Color.fromARGB(255, 113, 160, 213);
+              color = const Color.fromARGB(255, 113, 160, 213);
             }
           });
         },

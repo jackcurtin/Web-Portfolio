@@ -2,12 +2,12 @@
 
 import 'package:circular_motion/circular_motion.dart';
 import 'package:flutter/material.dart';
-import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/circle_painter.dart';
 import 'package:portfolio/wheel/wheel_item.dart';
 
 class NavWheel extends StatefulWidget {
-  const NavWheel({super.key});
+  final Function onClickItemCallback;
+  const NavWheel({required this.onClickItemCallback, super.key});
 
   @override
   State<NavWheel> createState() => _NavWheelState();
@@ -119,19 +119,38 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
             opacity: fadeAnimation,
             child: CircularMotion(
               speedRunEnabled: false,
-               centerWidget: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("JACK CURTIN", style: TextStyles.title),
-                    Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
-                  ],
-                ),
+               centerWidget: const SizedBox(),
                 children: [
-                  WheelItem(icon: Icons.question_mark_rounded, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
-                  WheelItem(icon:Icons.edit_document, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
-                  WheelItem(icon:Icons.person_search_outlined, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,),
-                  WheelItem(icon:Icons.work_history_outlined, wheelExpandAnimationController: wheelExpandAnimationController,wheelItemFadeAnimation: wheelItemFadeAnimation,),
-                  WheelItem(icon:Icons.mail, wheelExpandAnimationController: wheelExpandAnimationController, wheelItemFadeAnimation: wheelItemFadeAnimation,)
+                  WheelItem(
+                    icon: Icons.question_mark_rounded, 
+                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelItemFadeAnimation: wheelItemFadeAnimation,
+                    onClickCallback: widget.onClickItemCallback,
+                    ),
+                  WheelItem(
+                    icon:Icons.edit_document, 
+                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelItemFadeAnimation: wheelItemFadeAnimation,
+                    onClickCallback: widget.onClickItemCallback,
+                    ),
+                  WheelItem(
+                    icon:Icons.person_search_outlined, 
+                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelItemFadeAnimation: wheelItemFadeAnimation,
+                    onClickCallback: widget.onClickItemCallback,
+                    ),
+                  WheelItem(
+                    icon:Icons.work_history_outlined, 
+                    wheelExpandAnimationController: wheelExpandAnimationController,
+                    wheelItemFadeAnimation: wheelItemFadeAnimation,
+                    onClickCallback: widget.onClickItemCallback,
+                    ),
+                  WheelItem(
+                    icon:Icons.mail, 
+                    wheelExpandAnimationController: wheelExpandAnimationController, 
+                    wheelItemFadeAnimation: wheelItemFadeAnimation,
+                    onClickCallback: widget.onClickItemCallback,
+                    )
                 ],
              ),
           ),

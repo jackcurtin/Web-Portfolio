@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/wheel/nav_wheel_widget.dart';
+
+import 'landingPage/landing_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: const NavWheel(),
+      body: const LandingPage(),
     );
   }
 }
