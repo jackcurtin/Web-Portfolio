@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/constants/blurbs.dart';
 import 'package:portfolio/constants/content_keys.dart';
+import 'package:portfolio/landingPage/contactForm/contact_form.dart';
 import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/nav_wheel_widget.dart';
 
@@ -108,18 +109,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 Widget pageContent() {
   switch(contentKey) {
     case ContentKey.contact :
-      return const SizedBox(
-        height: 300, 
-        width: 500, 
-        child: Column(
-          children: [
-            Spacer(flex: 2,),
-            Text(textAlign: TextAlign.center, aboutMe1),
-            Spacer(flex: 1),
-            Text(textAlign: TextAlign.center, aboutMe2),
-            Spacer(flex: 5,)
-          ],
-        ));
+      return ContactForm();
     case ContentKey.resume : 
       return Container(height: 100, width: 100, color: Colors.yellow,);
     case ContentKey.gitHub :
