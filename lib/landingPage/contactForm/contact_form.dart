@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/constants/screen_util.dart';
 
 class ContactForm extends StatefulWidget {
-  final double screenHeight;
-  const ContactForm({required this.screenHeight, super.key});
+  const ContactForm({super.key});
 
   @override
   State<ContactForm> createState() => _ContactFormState();
@@ -21,7 +21,7 @@ class _ContactFormState extends State<ContactForm> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: widget.screenHeight / 3),
+                margin: EdgeInsets.only(top: ScreenUtility(context).height / 3),
                 padding: const EdgeInsets.symmetric(vertical: 48),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

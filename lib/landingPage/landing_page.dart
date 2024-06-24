@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/constants/blurbs.dart';
 import 'package:portfolio/constants/content_keys.dart';
+import 'package:portfolio/constants/screen_util.dart';
 import 'package:portfolio/landingPage/contactForm/contact_form.dart';
 import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/nav_wheel_widget.dart';
@@ -56,6 +57,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 
 
   Widget titlePiece() {
+    bool isMobile = ScreenUtility(context).isMobileScreen;
   return AnimatedOpacity(
     duration: const Duration(milliseconds: 800),
     opacity: titleOpacity,
@@ -88,11 +90,11 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
                   ),
                 ),
               ),
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("JACK CURTIN", style: TextStyles.title),
-                  Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
+                  Text("JACK CURTIN", style: isMobile ? TextStyles.titlePhone : TextStyles.title),
+                  Text("MOBILE DEVELOPER", style: isMobile ? TextStyles.subTitlePhone : TextStyles.subTitle),
                 ],
               ),
               AnimatedOpacity(
@@ -111,10 +113,10 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   );
 }
 
-Widget pageContent(double screenHeight) {
+Widget pageContent() {
   switch(contentKey) {
     case ContentKey.contact :
-      return ContactForm(screenHeight: screenHeight);
+      return ContactForm();
     case ContentKey.resume : 
       return Container(height: 100, width: 100, color: Colors.yellow,);
     case ContentKey.gitHub :
@@ -131,15 +133,13 @@ Widget pageContent(double screenHeight) {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
     return Stack(children: [
         NavWheel(
           onClickItemCallback: onClickMenuItemCallback,
           wheelExpandAnimationController: _wheelExpandAnimationController,
           animationDuration: fullAnimationDuration,
           ),
-        Center(child: AnimatedOpacity(opacity: contentOpacity, duration: halfAnimationDuration, child: pageContent(screenHeight))),
+        Center(child: AnimatedOpacity(opacity: contentOpacity, duration: halfAnimationDuration, child: pageContent())),
         titlePiece(),
       ],);
   }

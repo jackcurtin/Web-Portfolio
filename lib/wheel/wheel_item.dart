@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:portfolio/constants/content_keys.dart';
 
 class WheelItem extends StatefulWidget {
@@ -9,7 +10,17 @@ class WheelItem extends StatefulWidget {
   final Animation<double> wheelItemFadeAnimation;
   final Function onClickCallback;
   final ContentKey contentKey;
-  const WheelItem({ required this.icon, required this.wheelExpandAnimationController, required this.wheelItemFadeAnimation, required this.onClickCallback, required this.contentKey, super.key });
+  final bool useImage;
+  final String? imagePath;
+  const WheelItem({
+    required this.icon,
+    required this.wheelExpandAnimationController,
+    required this.wheelItemFadeAnimation,
+    required this.onClickCallback,
+    required this.contentKey,
+    this.useImage = false,
+    this.imagePath,
+    super.key });
 
   @override
   State<WheelItem> createState() => _WheelItemState();
@@ -53,7 +64,14 @@ class _WheelItemState extends State<WheelItem> {
         child: CircleAvatar(
           radius: radius,
           backgroundColor: color,
-          child: Icon(
+          child: widget.useImage ? 
+          const Image(
+            
+            image: Svg("assets/linkedInIcon.svg"),
+            width: 10,
+            height: 10,
+          )
+          : Icon(
             widget.icon,
             color: Colors.black,
           ),

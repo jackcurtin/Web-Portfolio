@@ -3,6 +3,7 @@
 import 'package:circular_motion/circular_motion.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constants/content_keys.dart';
+import 'package:portfolio/constants/screen_util.dart';
 import 'package:portfolio/wheel/circle_painter.dart';
 import 'package:portfolio/wheel/wheel_item.dart';
 
@@ -95,25 +96,33 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
   }
 
   Widget _buildCircle(BuildContext context) {
-   double width = MediaQuery.sizeOf(context).width;
+   double width = ScreenUtility(context).width;
+   double height = ScreenUtility(context).height;
    return Stack(
       alignment: Alignment.center,
       children: [
-        FadeTransition(
-          opacity: wheelFadeAnimation,
-          child: AnimatedBuilder(
-            animation: pageBloomed ? wheelExpandAnimation : wheelBloomAnimation,
-            builder: (context, _) {
-              double animatedSizing = pageBloomed ? wheelExpandAnimation.value : wheelBloomAnimation.value;
-              return CustomPaint(
-                size: Size(width * animatedSizing, width * animatedSizing),
-                painter: CirclePainter(),
-              );
-            }
+        Container(
+          constraints: BoxConstraints(maxWidth: height * .75, maxHeight: height * .75),
+          child: FadeTransition(
+            opacity: wheelFadeAnimation,
+            child: AnimatedBuilder(
+              animation: pageBloomed ? wheelExpandAnimation : wheelBloomAnimation,
+              builder: (context, _) {
+                double animatedSizing = pageBloomed ? wheelExpandAnimation.value : wheelBloomAnimation.value;
+                return CustomPaint(
+                  size: Size(width * animatedSizing, width * animatedSizing),
+                  painter: CirclePainter(),
+                );
+              }
+            ),
           ),
         ),
       Center(
-        child: SizedBox(
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: height * .815, 
+            maxHeight: height * .815
+          ),
           height: width * 0.815,
           width: width * 0.815,
           child: FadeTransition(
@@ -149,6 +158,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.linkedIn,
+                    useImage: true,
                   ),
                   WheelItem(
                     icon:Icons.folder, 
