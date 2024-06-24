@@ -14,12 +14,14 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin {
   double titleOpacity = 0.0;
+  double contentOpacity = 0.0;
   bool showContent = false;
   ContentKey contentKey = ContentKey.none;
 
-  Duration animationDuration = const Duration(milliseconds: 1200);
+  Duration fullAnimationDuration = const Duration(milliseconds: 1200);
+  Duration halfAnimationDuration = const Duration(milliseconds: 600);
 
-  late final AnimationController _wheelExpandAnimationController = AnimationController(vsync: this, duration: animationDuration);
+  late final AnimationController _wheelExpandAnimationController = AnimationController(vsync: this, duration: fullAnimationDuration);
   late final AnimationController _textAnimationController = AnimationController(
     duration: const Duration(milliseconds: 800),
   vsync: this,
@@ -43,10 +45,11 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   }
 
   void onClickMenuItemCallback(ContentKey key) {
-    _textAnimationController.forward();
-    setState(() {
-      showContent = true;
-      contentKey = key;
+    _textAnimationController.forward().whenComplete(() {
+        setState(() {
+          contentOpacity = 1;
+          contentKey = key;
+        });
     });
   }
 
@@ -66,12 +69,13 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
             children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Visibility(
-                    visible: showContent,
+                  child: AnimatedOpacity(
+                    duration: halfAnimationDuration,
+                    opacity: contentOpacity,
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          showContent = false;
+                          contentOpacity = 0;
                           _textAnimationController.reverse();
                           _wheelExpandAnimationController.reverse();
                           contentKey = ContentKey.none;
@@ -91,8 +95,9 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
                   Text("MOBILE DEVELOPER", style: TextStyles.subTitle),
                 ],
               ),
-              Visibility(
-                visible: showContent, 
+              AnimatedOpacity(
+                duration: halfAnimationDuration,
+                opacity: contentOpacity, 
                 child: const Icon(
                   Icons.computer_outlined, 
                   size: 30,
@@ -109,7 +114,7 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
 Widget pageContent() {
   switch(contentKey) {
     case ContentKey.contact :
-      return ContactForm();
+      return const ContactForm();
     case ContentKey.resume : 
       return Container(height: 100, width: 100, color: Colors.yellow,);
     case ContentKey.gitHub :
@@ -132,9 +137,9 @@ Widget pageContent() {
         NavWheel(
           onClickItemCallback: onClickMenuItemCallback,
           wheelExpandAnimationController: _wheelExpandAnimationController,
-          animationDuration: animationDuration,
+          animationDuration: fullAnimationDuration,
           ),
-        Center(child: pageContent()),
+        Center(child: AnimatedOpacity(opacity: contentOpacity, duration: halfAnimationDuration, child: pageContent())),
         titlePiece(),
       ],);
   }
