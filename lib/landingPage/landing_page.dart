@@ -111,10 +111,10 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
   );
 }
 
-Widget pageContent() {
+Widget pageContent(double screenHeight) {
   switch(contentKey) {
     case ContentKey.contact :
-      return const ContactForm();
+      return ContactForm(screenHeight: screenHeight);
     case ContentKey.resume : 
       return Container(height: 100, width: 100, color: Colors.yellow,);
     case ContentKey.gitHub :
@@ -139,7 +139,7 @@ Widget pageContent() {
           wheelExpandAnimationController: _wheelExpandAnimationController,
           animationDuration: fullAnimationDuration,
           ),
-        Center(child: AnimatedOpacity(opacity: contentOpacity, duration: halfAnimationDuration, child: pageContent())),
+        Center(child: AnimatedOpacity(opacity: contentOpacity, duration: halfAnimationDuration, child: pageContent(screenHeight))),
         titlePiece(),
       ],);
   }

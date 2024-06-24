@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ContactForm extends StatefulWidget {
-  const ContactForm({super.key});
+  final double screenHeight;
+  const ContactForm({required this.screenHeight, super.key});
 
   @override
   State<ContactForm> createState() => _ContactFormState();
@@ -18,11 +19,10 @@ class _ContactFormState extends State<ContactForm> {
         child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 250,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                margin: EdgeInsets.only(top: widget.screenHeight / 3),
+                padding: const EdgeInsets.symmetric(vertical: 48),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -39,13 +39,13 @@ class _ContactFormState extends State<ContactForm> {
                       },
                     ),
                     TextFormField(
-                      minLines: 5,
+                      minLines: 1,
                       maxLines: 20,
                       decoration: const InputDecoration(
                         icon: Icon(Icons.edit),
                         hintText: "What's up?",
-                        filled: true,
-                        fillColor: Colors.white,
+                        // filled: true,
+                        // fillColor: Colors.white,
                       ),
                         validator: (value) {
                         if (value == null || value.isEmpty) {

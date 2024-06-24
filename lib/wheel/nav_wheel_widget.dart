@@ -95,7 +95,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
   }
 
   Widget _buildCircle(BuildContext context) {
-   double height = MediaQuery.sizeOf(context).height;
+   double width = MediaQuery.sizeOf(context).width;
    return Stack(
       alignment: Alignment.center,
       children: [
@@ -106,7 +106,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
             builder: (context, _) {
               double animatedSizing = pageBloomed ? wheelExpandAnimation.value : wheelBloomAnimation.value;
               return CustomPaint(
-                size: Size(height * animatedSizing, height * animatedSizing),
+                size: Size(width * animatedSizing, width * animatedSizing),
                 painter: CirclePainter(),
               );
             }
@@ -114,8 +114,8 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
         ),
       Center(
         child: SizedBox(
-          height: height * 0.815,
-          width: height * 0.815,
+          height: width * 0.815,
+          width: width * 0.815,
           child: FadeTransition(
             opacity: fadeAnimation,
             child: CircularMotion(
