@@ -22,7 +22,7 @@ class CirclePainter extends CustomPainter {
 class CirclePainterMobile extends CustomPainter {
   final _paint = Paint()
     ..color = Colors.white
-    ..strokeWidth = 60
+    ..strokeWidth = 70
     // Use [PaintingStyle.fill] if you want the circle to be filled.
     ..style = PaintingStyle.stroke;
 
