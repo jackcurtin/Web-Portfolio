@@ -99,6 +99,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
    double width = ScreenUtility(context).width;
    double height = ScreenUtility(context).height;
    bool isMobile = ScreenUtility(context).isMobileScreen;
+   double itemPositionFactor = isMobile ? 0.87 : 0.815;
    return Stack(
       alignment: Alignment.center,
       children: [
@@ -121,11 +122,11 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
       Center(
         child: Container(
           constraints: BoxConstraints(
-            maxWidth: height * .815, 
-            maxHeight: height * .815
+            maxWidth: height * itemPositionFactor, 
+            maxHeight: height * itemPositionFactor
           ),
-          height: width * 0.815,
-          width: width * 0.815,
+          height: width * itemPositionFactor,
+          width: width * itemPositionFactor,
           child: FadeTransition(
             opacity: fadeAnimation,
             child: CircularMotion(

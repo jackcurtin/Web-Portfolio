@@ -80,7 +80,6 @@ class _WheelItemState extends State<WheelItem> {
           backgroundColor: color,
           child: widget.useImage ? 
           Image(
-            
             image: Svg(widget.imagePath ?? ""),
             width: 30,
             height: 30,
