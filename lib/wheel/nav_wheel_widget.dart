@@ -98,6 +98,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
   Widget _buildCircle(BuildContext context) {
    double width = ScreenUtility(context).width;
    double height = ScreenUtility(context).height;
+   bool isMobile = ScreenUtility(context).isMobileScreen;
    return Stack(
       alignment: Alignment.center,
       children: [
@@ -111,7 +112,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                 double animatedSizing = pageBloomed ? wheelExpandAnimation.value : wheelBloomAnimation.value;
                 return CustomPaint(
                   size: Size(width * animatedSizing, width * animatedSizing),
-                  painter: CirclePainter(),
+                  painter: isMobile ? CirclePainterMobile() : CirclePainter(),
                 );
               }
             ),

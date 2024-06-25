@@ -119,9 +119,9 @@ Widget pageContent() {
     case ContentKey.resume : 
       return Container(height: 100, width: 100, color: Colors.yellow,);
     case ContentKey.gitHub :
-      return Container(height: 100, width: 100, color: Colors.green,);
+      return const SizedBox();
     case ContentKey.linkedIn :
-      return Container(height: 100, width: 100, color: Colors.blue,);
+      return const SizedBox();
     case ContentKey.projects :
       return Container(height: 100, width: 100, color: Colors.purple,);
     case ContentKey.none :
