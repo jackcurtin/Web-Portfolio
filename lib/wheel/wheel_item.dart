@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:portfolio/constants/content_keys.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WheelItem extends StatefulWidget {
   final IconData icon;
@@ -31,8 +32,21 @@ class _WheelItemState extends State<WheelItem> {
   Color color = const Color.fromARGB(255, 113, 160, 213);
 
   Future<void> onClickItem() async {
-    await expandAnimation();
-    widget.onClickCallback(widget.contentKey);
+    if (widget.contentKey == ContentKey.gitHub) {
+      openLink("https://github.com/jackcurtin");
+    } else if ( widget.contentKey == ContentKey.linkedIn) {
+      openLink("https://www.linkedin.com/in/jack-curtin-a08b28210/");
+    } else {
+      await expandAnimation();
+      widget.onClickCallback(widget.contentKey);
+    }
+  }
+
+  Future<void> openLink(String url, {bool isNewTab = true}) async {
+    await launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: isNewTab ? '_blank' : '_self',
+    );
   }
   
   Future<void> expandAnimation() async {
@@ -65,11 +79,11 @@ class _WheelItemState extends State<WheelItem> {
           radius: radius,
           backgroundColor: color,
           child: widget.useImage ? 
-          const Image(
+          Image(
             
-            image: Svg("assets/linkedInIcon.svg"),
-            width: 10,
-            height: 10,
+            image: Svg(widget.imagePath ?? ""),
+            width: 30,
+            height: 30,
           )
           : Icon(
             widget.icon,

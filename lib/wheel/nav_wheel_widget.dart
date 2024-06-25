@@ -151,6 +151,8 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                     wheelItemFadeAnimation: wheelItemFadeAnimation,
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.gitHub,
+                    useImage: true,
+                    imagePath: "lib/assets/githubIcon.svg",
                   ),
                   WheelItem(
                     icon:Icons.work_history_outlined, 
@@ -159,6 +161,7 @@ class _NavWheelState extends State<NavWheel> with TickerProviderStateMixin {
                     onClickCallback: widget.onClickItemCallback,
                     contentKey: ContentKey.linkedIn,
                     useImage: true,
+                    imagePath: "lib/assets/linkedInIcon.svg",
                   ),
                   WheelItem(
                     icon:Icons.folder, 

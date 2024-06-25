@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ScreenUtility {
   BuildContext context;
 
-  ScreenUtility(this.context) : assert (context != null);
+  ScreenUtility(this.context);
 
   double get width => MediaQuery.of(context).size.width;
   double get height => MediaQuery.of(context).size.height;
