@@ -116,7 +116,7 @@ Widget pageContent() {
     case ContentKey.contact :
       return const ContactForm();
     case ContentKey.resume : 
-      return const Resume();
+      return Resume();
     case ContentKey.gitHub :
       return const SizedBox();
     case ContentKey.linkedIn :
