@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/constants/content_keys.dart';
 import 'package:portfolio/constants/screen_util.dart';
 import 'package:portfolio/landingPage/contactForm/contact_form.dart';
+import 'package:portfolio/landingPage/resume/resume.dart';
 import 'package:portfolio/styles/text_styles.dart';
 import 'package:portfolio/wheel/nav_wheel_widget.dart';
 
@@ -52,8 +53,6 @@ class _LandingPageState extends State<LandingPage> with TickerProviderStateMixin
         });
     });
   }
-
-
 
   Widget titlePiece() {
     bool isMobile = ScreenUtility(context).isMobileScreen;
@@ -117,7 +116,7 @@ Widget pageContent() {
     case ContentKey.contact :
       return const ContactForm();
     case ContentKey.resume : 
-      return Container(height: 100, width: 100, color: Colors.yellow,);
+      return const Resume();
     case ContentKey.gitHub :
       return const SizedBox();
     case ContentKey.linkedIn :
