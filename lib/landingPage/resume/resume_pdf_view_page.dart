@@ -10,7 +10,7 @@ class ResumePDFViewPage extends StatefulWidget {
 
 class _ResumePDFViewPageState extends State<ResumePDFViewPage> {
   final pdfController = PdfController(
-    document: PdfDocument.openAsset('jack_curtin_resume_july_2024.pdf'));
+    document: PdfDocument.openAsset('cv.pdf'));
   @override
   Widget build(BuildContext context) {
      return Scaffold(
